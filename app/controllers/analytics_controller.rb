@@ -20,6 +20,7 @@ class AnalyticsController < ApplicationController
 		@consumption_elec = avg_consumption(1, @elec_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
 		@consumption_gas = avg_consumption(2, @gas_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
 		@meter_read_elec = meter_readings(1) # Meter reading breakdown per customer by electricity
+		# raise @meter_read_elec[0].to_a.select{|m| m[1] == 25}.count.inspect
 		@meter_read_gas = meter_readings(2) # Meter reading breakdown per customer by gas
 	end
 
@@ -113,6 +114,6 @@ class AnalyticsController < ApplicationController
 		group_custID = Analytic.group(:custID).where(elec_gas: elec_gas).count
 		max_number_of_readings = group_custID.max_by { |g| g[1]} # Give me the most readings by a unique customer
 		min_number_of_readings = group_custID.min_by { |g| g[1]} # Give me the minimum readings by a unique customer
-		return [group_custID, max_number_of_readings, min_number_of_readings]
+		return [group_custID, max_number_of_readings[1], min_number_of_readings[1]]
 	end
 end

@@ -7,6 +7,11 @@
 	margin-top: 10px;
 }
 
+.meter_readings, .consumption_wrapper{
+	display: block;
+	clear:both;
+}
+
 .consumption{
 	padding-left: 0 !important; 
 }
