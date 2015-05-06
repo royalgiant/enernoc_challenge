@@ -46,3 +46,8 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+
+group :production do
+	gem 'pg'
+	gem 'rails_12factor', '~> 0.0.2'
+end
