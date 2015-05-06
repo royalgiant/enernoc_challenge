@@ -1,7 +1,7 @@
 class CreateAnalytics < ActiveRecord::Migration
   def change
     create_table :analytics do |t|
-    	t.integer :custID
+    	t.integer :custid
     	t.integer :elec_gas
     	t.string :disconnect_doc
     	t.integer :move_in_date

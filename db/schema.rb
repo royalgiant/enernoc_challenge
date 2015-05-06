@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20150505233803) do
 
   create_table "analytics", force: :cascade do |t|
-    t.integer  "custID",          limit: 4
+    t.integer  "custid",          limit: 4
     t.integer  "elec_gas",        limit: 4
     t.string   "disconnect_doc",  limit: 255
     t.integer  "move_in_date",    limit: 4

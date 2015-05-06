@@ -7,10 +7,10 @@ class AnalyticsController < ApplicationController
 
 	def stats
 		# Number of unique customers count
-		@number_unique_customers = Analytic.select(:custID).distinct.count
+		@number_unique_customers = Analytic.select(:custid).distinct.count
 		
-		@elec = Analytic.uniq.where(elec_gas: 1).pluck(:custID) # Get parameters for all unique customers that uses electricity
-		@gas = Analytic.uniq.where(elec_gas: 2).pluck(:custID) # Get parameters for all unique customers that uses gas
+		@elec = Analytic.uniq.where(elec_gas: 1).pluck(:custid) # Get parameters for all unique customers that uses electricity
+		@gas = Analytic.uniq.where(elec_gas: 2).pluck(:custid) # Get parameters for all unique customers that uses gas
 		
 		# Customers - Electricity and Gas
 		@elec_and_gas = both_elec_and_gas(@elec, @gas)
@@ -29,7 +29,7 @@ class AnalyticsController < ApplicationController
 		uncompressed = ActiveSupport::Gzip.decompress(params[:file].read) 
 		# Split up the string based on the \n break and assign the array to dataRows
 		dataRows = uncompressed.split(/\r?\n/)
-		# Let's drop the headers in array[0] since it contains "CustID|ElecOrGas|..."
+		# Let's drop the headers in array[0] since it contains "custid|ElecOrGas|..."
 		dataRows = dataRows.drop(1)
 		# Keep the bad data in an array
 		@bad_data = Array.new
@@ -39,7 +39,7 @@ class AnalyticsController < ApplicationController
 			begin
 				# Find if the row of data exists in DB, else create it
 				Analytic.find_or_create_by({
-				custID: row_data[0].to_i,
+				custid: row_data[0].to_i,
 				elec_gas: row_data[1].to_i,
 				disconnect_doc: row_data[2],
 				move_in_date: row_data[3].to_i,
@@ -65,7 +65,7 @@ class AnalyticsController < ApplicationController
 
 	private 
 
-	# returns an array of custID's that uses both elec and gas
+	# returns an array of custid's that uses both elec and gas
 	def both_elec_and_gas(elec, gas)
 		elec_gas = Array.new
 		gas.each do |g|
@@ -75,7 +75,7 @@ class AnalyticsController < ApplicationController
 		end
 		return elec_gas
 	end
-	# returns an array of custID's that uses gas only 
+	# returns an array of custid's that uses gas only 
 	def gas_only(electricity_gas, gas)
 		electricity_gas.each do |eg|
 			if gas.include?(eg)
@@ -84,7 +84,7 @@ class AnalyticsController < ApplicationController
 		end
 		return gas
 	end
-	# returns an array of custID's that uses elec only
+	# returns an array of custid's that uses elec only
 	def elec_only(electricity_gas, elec)
 		electricity_gas.each do |eg|
 			if elec.include?(eg)
@@ -111,9 +111,9 @@ class AnalyticsController < ApplicationController
 
 	# returns breakdown of meter readings per customer, split by electricity and gas
 	def meter_readings(elec_gas)
-		group_custID = Analytic.group(:custID).where(elec_gas: elec_gas).count
-		max_number_of_readings = group_custID.max_by { |g| g[1]} # Give me the most readings by a unique customer
-		min_number_of_readings = group_custID.min_by { |g| g[1]} # Give me the minimum readings by a unique customer
-		return [group_custID, max_number_of_readings[1], min_number_of_readings[1]]
+		group_custid = Analytic.group(:custid).where(elec_gas: elec_gas).count
+		max_number_of_readings = group_custid.max_by { |g| g[1]} # Give me the most readings by a unique customer
+		min_number_of_readings = group_custid.min_by { |g| g[1]} # Give me the minimum readings by a unique customer
+		return [group_custid, max_number_of_readings[1], min_number_of_readings[1]]
 	end
 end
