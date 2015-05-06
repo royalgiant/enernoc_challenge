@@ -20,7 +20,7 @@ class AnalyticsController < ApplicationController
 		@consumption_elec = avg_consumption(1, @elec_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
 		@consumption_gas = avg_consumption(2, @gas_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
 		@meter_read_elec = meter_readings(1) # Meter reading breakdown per customer by electricity
-		# raise @meter_read_elec[0].to_a.select{|m| m[1] == 25}.count.inspect
+		
 		@meter_read_gas = meter_readings(2) # Meter reading breakdown per customer by gas
 	end
 

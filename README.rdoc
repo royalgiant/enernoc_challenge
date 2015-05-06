@@ -1,28 +1,41 @@
-== README
+Steps:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1.	If you don’t have ruby yet, install it based on your platform: https://www.ruby-lang.org/en/documentation/installation/ 
 
-Things you may want to cover:
+2.	Install rails
 
-* Ruby version
+3.	Install MySQL WorkBench at http://dev.mysql.com/downloads/workbench/ if you want a visual of the data
 
-* System dependencies
+	•	Setting up work bench
+		i.	Database > Manage Connections
+	ii.	Click “New”
+		•	Connection Name: Enernoc
+		•	Connection Method: Standard (TCP/IP)
+		•	Hostname: localhost; Port: 3306
+		•	Username: root
+	iii.	Close
+		•	Click the “Home” icon and your connection should come up
+			i.	If it asks for a password, give it “admin”
 
-* Configuration
+4.	Download Postgres.app and place into Application directory
+	•	Specify location of pg_config
+		i.	gem install pg -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/9.4/bin/pg_config
+	•	If you run into missing headers problems, try this:
+		i.	gem install pg -- --with-pg-include=/Applications/Postgres.app/Contents/Versions/9.4/include/’
 
-* Database creation
+5.	Put the rails app folder attached to the email in your developers folder
+	•	On my Mac, I left it in my /Developer/enernoc folder
+	•	Unzip it if it’s the zip
 
-* Database initialization
+6.	Open up terminal and do the following:
+	•	Cd into the folder (i.e. cd /Developer/enernoc)
+	•	Run the command “rails s”
+	•	Open another terminal tab and cd into the same folder (i.e. cd /Developer/enernoc)
+		i.	Run the command “bundle”
+		ii.	Run the commands “rake db:create && rake db:migrate”)
 
-* How to run the test suite
+7.	Open up any internet browser and go to localhost:3000
 
-* Services (job queues, cache servers, search engines, etc.)
+8.	You should now be able to see a page allowing you to input a file and upload it by clicking “Import”
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+9.	“See Statistics” will show you all the statistics that was asked for. 
