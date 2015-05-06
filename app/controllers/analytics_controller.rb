@@ -114,6 +114,10 @@ class AnalyticsController < ApplicationController
 		group_custid = Analytic.group(:custid).where(elec_gas: elec_gas).count
 		max_number_of_readings = group_custid.max_by { |g| g[1]} # Give me the most readings by a unique customer
 		min_number_of_readings = group_custid.min_by { |g| g[1]} # Give me the minimum readings by a unique customer
-		return [group_custid, max_number_of_readings[1], min_number_of_readings[1]]
+		if !group_custid.blank? && !max_number_of_readings.blank? && !min_number_of_readings.blank?
+			return [group_custid, max_number_of_readings[1], min_number_of_readings[1]]
+		else
+			return nil
+		end
 	end
 end
