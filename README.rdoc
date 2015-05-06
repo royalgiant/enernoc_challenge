@@ -40,9 +40,9 @@ Steps:
 
 6.	Open up terminal and do the following:
 
-	#•	Cd into the folder (i.e. cd /Developer/enernoc)  
-	#•	Run the command “rails s”  
-	#•	Open another terminal tab and cd into the same folder (i.e. cd /Developer/enernoc)  
+	•	Cd into the folder (i.e. cd /Developer/enernoc)  
+	•	Run the command “rails s”  
+	•	Open another terminal tab and cd into the same folder (i.e. cd /Developer/enernoc)  
 
 		i.	Run the command “bundle”  
 		ii.	Run the commands “rake db:create && rake db:migrate”)  

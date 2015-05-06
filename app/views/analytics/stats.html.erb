@@ -1,60 +1,111 @@
 <div class="col-lg-12">
-	<div class="stats"><%= link_to "&laquo;".html_safe + " Back to Data", root_path, :class => "btn btn-info" %></div>
-	<hr>
-	<!-- 1: Number of unique customers -->
-	<h3>Number of Unique Customers</h3>
-	<hr>
-	<div><%= @number_unique_customers %></div>
+	<% if @number_unique_customers.blank?%>
+		<h3>There is no data available</h3>
+	<% else %>
+		<div class="stats"><%= link_to "&laquo;".html_safe + " Back to Data", root_path, :class => "btn btn-info" %></div>
+		<hr>
+		<!-- 1: Number of unique customers -->
+		<h3>Number of Unique Customers</h3>
+		<hr>
+		<div><%= @number_unique_customers %></div>
 
-	<!-- 2: Breakdown of the number of customers that have electricity only, gas only, and both electricity and gas -->
-	<h3>Breakdown of Number of Customers with electricity only, gas only, and both electricity and gas</h3>
-	<hr>
-	<div>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Breakdown</th>
-					<th>Number</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Electricity Only</td>
-					<td><%= @elec_only.count%></td>
-				</tr>
-				<tr>
-					<td>Gas Only</td>
-					<td><%= @gas_only.count%></td>
-				</tr>
-				<tr>
-					<td>Electricity and Gas</td>
-					<td><%= @elec_and_gas.count%></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
-	<!-- 3: Breakdown of the number of meter readings per customer (split by electricity and gas) that can be used to generate a histogram -->
-	<div class="meter_readings">
-	<h3>Breakdown of the number of meter readings per customer (split by electricity and gas) that can be used to generate a histogram</h3>
-	<hr>
+		<!-- 2: Breakdown of the number of customers that have electricity only, gas only, and both electricity and gas -->
+		<h3>Breakdown of Number of Customers with electricity only, gas only, and both electricity and gas</h3>
+		<hr>
 		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Breakdown</th>
+						<th>Number</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Electricity Only</td>
+						<td><%= @elec_only.count%></td>
+					</tr>
+					<tr>
+						<td>Gas Only</td>
+						<td><%= @gas_only.count%></td>
+					</tr>
+					<tr>
+						<td>Electricity and Gas</td>
+						<td><%= @elec_and_gas.count%></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- 3: Breakdown of the number of meter readings per customer (split by electricity and gas) that can be used to generate a histogram -->
+		<div class="meter_readings">
+		<h3>Breakdown of the number of meter readings per customer (split by electricity and gas) that can be used to generate a histogram</h3>
+		<hr>
+			<div>
+				<div class="col-lg-6 consumption">
+					<h4>Electricity</h4>
+					<table class="table"> 
+						<thead>
+							<tr>
+								<th>Number of Meter Readings</th>
+								<th>Number of Customers</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% while @meter_read_elec[2] < (@meter_read_elec[1] + 1) %>
+								<tr>
+									<td><%= @meter_read_elec[2] %> </td>
+									<td><%= @meter_read_elec[0].to_a.select{|m| m[1] == @meter_read_elec[2]}.count.inspect %></td>
+								</tr>
+								<% @meter_read_elec[2] = @meter_read_elec[2] + 1%>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="col-lg-6 consumption">
+					<h4>Gas</h4>
+					<table class="table"> 
+						<thead>
+							<tr>
+								<th>Number of Meter Readings</th>
+								<th>Number of Customers</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% while @meter_read_gas[2] < (@meter_read_gas[1] + 1) %>
+								<tr>
+									<td><%= @meter_read_gas[2] %> </td>
+									<td><%= @meter_read_gas[0].to_a.select{|m| m[1] == @meter_read_gas[2]}.count.inspect%></td>
+								</tr>
+								<% @meter_read_gas[2] = @meter_read_gas[2] + 1%>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 4: Average consumption per Bill Month per resource across all customers -->
+
+		<div class="consumption_wrapper">
+		<h3>Average consumption per Bill Month per resource across all customers</h3>
+		<hr>
 			<div class="col-lg-6 consumption">
 				<h4>Electricity</h4>
 				<table class="table"> 
 					<thead>
 						<tr>
-							<th>Number of Meter Readings</th>
-							<th>Number of Customers</th>
+							<th>Months (all years)</th>
+							<th>Average Consumption</th>
 						</tr>
 					</thead>
 					<tbody>
-						<% while @meter_read_elec[2] < (@meter_read_elec[1] + 1) %>
+						<% @consumption_elec.each_with_index do |ce, index| %>
 							<tr>
-								<td><%= @meter_read_elec[2] %> </td>
-								<td><%= @meter_read_elec[0].to_a.select{|m| m[1] == @meter_read_elec[2]}.count.inspect %></td>
+								<td><%= Date::MONTHNAMES[index+1]%> </td>
+								<td><%= ce.round(2)%></td>
 							</tr>
-							<% @meter_read_elec[2] = @meter_read_elec[2] + 1%>
 						<% end %>
 					</tbody>
 				</table>
@@ -65,68 +116,20 @@
 				<table class="table"> 
 					<thead>
 						<tr>
-							<th>Number of Meter Readings</th>
-							<th>Number of Customers</th>
+							<th>Months (all years)</th>
+							<th>Average Consumption</th>
 						</tr>
 					</thead>
 					<tbody>
-						<% while @meter_read_gas[2] < (@meter_read_gas[1] + 1) %>
+						<% @consumption_gas.each_with_index do |cg, index| %>
 							<tr>
-								<td><%= @meter_read_gas[2] %> </td>
-								<td><%= @meter_read_gas[0].to_a.select{|m| m[1] == @meter_read_gas[2]}.count.inspect%></td>
+								<td><%= Date::MONTHNAMES[index+1]%> </td>
+								<td><%= cg.round(2)%></td>
 							</tr>
-							<% @meter_read_gas[2] = @meter_read_gas[2] + 1%>
 						<% end %>
 					</tbody>
 				</table>
 			</div>
 		</div>
-	</div>
-
-	<!-- 4: Average consumption per Bill Month per resource across all customers -->
-
-	<div class="consumption_wrapper">
-	<h3>Average consumption per Bill Month per resource across all customers</h3>
-	<hr>
-		<div class="col-lg-6 consumption">
-			<h4>Electricity</h4>
-			<table class="table"> 
-				<thead>
-					<tr>
-						<th>Months (all years)</th>
-						<th>Average Consumption</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% @consumption_elec.each_with_index do |ce, index| %>
-						<tr>
-							<td><%= Date::MONTHNAMES[index+1]%> </td>
-							<td><%= ce.round(2)%></td>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="col-lg-6 consumption">
-			<h4>Gas</h4>
-			<table class="table"> 
-				<thead>
-					<tr>
-						<th>Months (all years)</th>
-						<th>Average Consumption</th>
-					</tr>
-				</thead>
-				<tbody>
-					<% @consumption_gas.each_with_index do |cg, index| %>
-						<tr>
-							<td><%= Date::MONTHNAMES[index+1]%> </td>
-							<td><%= cg.round(2)%></td>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
-		</div>
-	</div>
-
+	<% end %>
 </div>
