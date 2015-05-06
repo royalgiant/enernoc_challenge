@@ -12,39 +12,39 @@ Steps:
 
 	ii.	Click “New”
 
-		•	Connection Name: Enernoc
-		•	Connection Method: Standard (TCP/IP)
-		•	Hostname: localhost; Port: 3306
-		•	Username: root
+		•	Connection Name: Enernoc  
+		•	Connection Method: Standard (TCP/IP)  
+		•	Hostname: localhost; Port: 3306  
+		•	Username: root  
 
 	iii.	Close
 
-		•	Click the “Home” icon and your connection should come up
-			i.	If it asks for a password, give it “admin”
+		•	Click the “Home” icon and your connection should come up  
+			i.	If it asks for a password, give it “admin”  
 
 4.	Download Postgres.app and place into Application directory
 
 	•	Specify location of pg_config
 
-		i.	gem install pg -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/9.4/bin/pg_config
+		i.	gem install pg -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/9.4/bin/pg_config  
 
-	•	If you run into missing headers problems, try this:
+	•	If you run into missing headers problems, try this:  
 
 		i.	gem install pg -- --with-pg-include=/Applications/Postgres.app/Contents/Versions/9.4/include/’
 
 5.	Put the rails app folder attached to the email in your developers folder
 
-	•	On my Mac, I left it in my /Developer/enernoc folder
-	•	Unzip it if it’s the zip
+	•	On my Mac, I left it in my /Developer/enernoc folder  
+	•	Unzip it if it’s the zip  
 
 6.	Open up terminal and do the following:
 
-	#•	Cd into the folder (i.e. cd /Developer/enernoc)
-	#•	Run the command “rails s”
-	#•	Open another terminal tab and cd into the same folder (i.e. cd /Developer/enernoc)
+	•	Cd into the folder (i.e. cd /Developer/enernoc)  
+	•	Run the command “rails s”  
+	•	Open another terminal tab and cd into the same folder (i.e. cd /Developer/enernoc)  
 
-		i.	Run the command “bundle”
-		ii.	Run the commands “rake db:create && rake db:migrate”)
+		i.	Run the command “bundle”  
+		ii.	Run the commands “rake db:create && rake db:migrate”)  
 
 7.	Open up any internet browser and go to localhost:3000
 
