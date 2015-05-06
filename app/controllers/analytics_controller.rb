@@ -13,15 +13,17 @@ class AnalyticsController < ApplicationController
 		@gas = Analytic.uniq.where(elec_gas: 2).pluck(:custid) # Get parameters for all unique customers that uses gas
 		
 		# Customers - Electricity and Gas
-		@elec_and_gas = both_elec_and_gas(@elec, @gas)
-		@elec_only = elec_only(@elec_and_gas, @elec) # Customers - Electricty Only
-		@gas_only = gas_only(@elec_and_gas, @gas) # Customers - Gas Only
+		if !@elec.blank? && !@gas.blank?
+			@elec_and_gas = both_elec_and_gas(@elec, @gas)
+			@elec_only = elec_only(@elec_and_gas, @elec) # Customers - Electricty Only
+			@gas_only = gas_only(@elec_and_gas, @gas) # Customers - Gas Only
 
-		@consumption_elec = avg_consumption(1, @elec_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
-		@consumption_gas = avg_consumption(2, @gas_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
-		@meter_read_elec = meter_readings(1) # Meter reading breakdown per customer by electricity
-		
-		@meter_read_gas = meter_readings(2) # Meter reading breakdown per customer by gas
+			@consumption_elec = avg_consumption(1, @elec_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
+			@consumption_gas = avg_consumption(2, @gas_only.count + @elec_and_gas.count) #Average consumption per bill month per resource across all customers of the resource
+			@meter_read_elec = meter_readings(1) # Meter reading breakdown per customer by electricity
+			
+			@meter_read_gas = meter_readings(2) # Meter reading breakdown per customer by gas
+		end
 	end
 
 	def import
