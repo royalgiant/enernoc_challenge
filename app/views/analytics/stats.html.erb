@@ -1,6 +1,6 @@
 <div class="col-lg-12">
-	<% if @number_unique_customers.blank?%>
-		<h3>There is no data available</h3>
+	<% if @number_unique_customers == 0 %>
+		<h1>There is no data available</h1>
 		<div class="stats"><%= link_to "&laquo;".html_safe + " Go Back", root_path, :class => "btn btn-info" %></div>
 	<% else %>
 		<div class="stats"><%= link_to "&laquo;".html_safe + " Back to Data", root_path, :class => "btn btn-info" %></div>

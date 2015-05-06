@@ -8,7 +8,6 @@ class AnalyticsController < ApplicationController
 	def stats
 		# Number of unique customers count
 		@number_unique_customers = Analytic.select(:custid).distinct.count
-		
 		@elec = Analytic.uniq.where(elec_gas: 1).pluck(:custid) # Get parameters for all unique customers that uses electricity
 		@gas = Analytic.uniq.where(elec_gas: 2).pluck(:custid) # Get parameters for all unique customers that uses gas
 		

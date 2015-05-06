@@ -21,47 +21,48 @@
 		<div class="stats"><%= link_to "See Statistics", stats_analytics_path, :class => "btn btn-info" %></div>
 	</div>
 	<hr> 
-
-	<h2> Current Data </h2>
-	<div>
-		<%= will_paginate @analytics, renderer: BootstrapPagination::Rails %>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>CustID</th>
-					<th>ElecOrGas</th>
-					<th>Disconnect Doc</th>
-					<th>Move In Date</th>
-					<th>Move Out Date</th>
-					<th>Bill Year</th>
-					<th>Bill Month</th>
-					<th>Span Days</th>
-					<th>Meter Read Date</th>
-					<th>Meter Read Type</th>
-					<th>Consumption</th>
-					<th>Exception Code</th>
-				</tr>
-			</thead>
-			
-			<tbody>
-				<% @analytics.each do |analytic| %>
+	<% if !@analytics.empty? %>
+		<h2> Current Data </h2>
+		<div>
+			<%= will_paginate @analytics, renderer: BootstrapPagination::Rails %>
+			<table class="table">
+				<thead>
 					<tr>
-						<td><%= analytic[:custid] %></td>
-						<td><%= analytic[:elec_gas] %></td>
-						<td><%= analytic[:disconnect_doc] %></td>
-						<td><%= analytic[:move_in_date] %></td>
-						<td><%= analytic[:move_out_date] %></td>
-						<td><%= analytic[:bill_year] %></td>
-						<td><%= analytic[:bill_month] %></td>
-						<td><%= analytic[:span_days] %></td>
-						<td><%= analytic[:meter_read_date] %></td>
-						<td><%= analytic[:meter_read_type] %></td>
-						<td><%= analytic[:consumption] %></td>
-						<td><%= analytic[:exception_code] %></td>
+						<th>CustID</th>
+						<th>ElecOrGas</th>
+						<th>Disconnect Doc</th>
+						<th>Move In Date</th>
+						<th>Move Out Date</th>
+						<th>Bill Year</th>
+						<th>Bill Month</th>
+						<th>Span Days</th>
+						<th>Meter Read Date</th>
+						<th>Meter Read Type</th>
+						<th>Consumption</th>
+						<th>Exception Code</th>
 					</tr>
-				<% end %>
-			</tbody>
-		</table>
-		<%= will_paginate @analytics, renderer: BootstrapPagination::Rails %>
-	</div>
+				</thead>
+				
+				<tbody>
+					<% @analytics.each do |analytic| %>
+						<tr>
+							<td><%= analytic[:custid] %></td>
+							<td><%= analytic[:elec_gas] %></td>
+							<td><%= analytic[:disconnect_doc] %></td>
+							<td><%= analytic[:move_in_date] %></td>
+							<td><%= analytic[:move_out_date] %></td>
+							<td><%= analytic[:bill_year] %></td>
+							<td><%= analytic[:bill_month] %></td>
+							<td><%= analytic[:span_days] %></td>
+							<td><%= analytic[:meter_read_date] %></td>
+							<td><%= analytic[:meter_read_type] %></td>
+							<td><%= analytic[:consumption] %></td>
+							<td><%= analytic[:exception_code] %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+			<%= will_paginate @analytics, renderer: BootstrapPagination::Rails %>
+		</div>
+	<% end %>
 </div>
