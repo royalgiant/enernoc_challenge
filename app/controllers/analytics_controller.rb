@@ -27,39 +27,43 @@ class AnalyticsController < ApplicationController
 
 	def import
 		# Let's uncompress the gzip file into a string
-		uncompressed = ActiveSupport::Gzip.decompress(params[:file].read) 
-		# Split up the string based on the \n break and assign the array to dataRows
-		dataRows = uncompressed.split(/\r?\n/)
-		# Let's drop the headers in array[0] since it contains "custid|ElecOrGas|..."
-		dataRows = dataRows.drop(1)
-		# Keep the bad data in an array
-		@bad_data = Array.new
-		# Loop through each row and insert data into database
-		dataRows.each do |row|
-			row_data = row.split("|") # Split up the pipe delimited string
-			begin
-				# Find if the row of data exists in DB, else create it
-				Analytic.find_or_create_by({
-				custid: row_data[0].to_i,
-				elec_gas: row_data[1].to_i,
-				disconnect_doc: row_data[2],
-				move_in_date: row_data[3].to_i,
-				move_out_date: row_data[4].to_i,
-				bill_year: row_data[5].to_i,
-				bill_month: row_data[6].to_i,
-				span_days: row_data[7].to_i,
-				meter_read_date: row_data[8].to_i,
-				meter_read_type: row_data[9],
-				consumption: row_data[10].to_i,
-				exception_code: row_data[11]
-			})
-			rescue Exception => e
-				@bad_data.push(row_data) # Push the bad data into the @bad_data array
+		if params[:file].blank?
+			flash[:danger] = "You need to select a file first."
+		else
+			uncompressed = ActiveSupport::Gzip.decompress(params[:file].read) 
+			# Split up the string based on the \n break and assign the array to dataRows
+			dataRows = uncompressed.split(/\r?\n/)
+			# Let's drop the headers in array[0] since it contains "custid|ElecOrGas|..."
+			dataRows = dataRows.drop(1)
+			# Keep the bad data in an array
+			@bad_data = Array.new
+			# Loop through each row and insert data into database
+			dataRows.each do |row|
+				row_data = row.split("|") # Split up the pipe delimited string
+				begin
+					# Find if the row of data exists in DB, else create it
+					Analytic.find_or_create_by({
+					custid: row_data[0].to_i,
+					elec_gas: row_data[1].to_i,
+					disconnect_doc: row_data[2],
+					move_in_date: row_data[3].to_i,
+					move_out_date: row_data[4].to_i,
+					bill_year: row_data[5].to_i,
+					bill_month: row_data[6].to_i,
+					span_days: row_data[7].to_i,
+					meter_read_date: row_data[8].to_i,
+					meter_read_type: row_data[9],
+					consumption: row_data[10].to_i,
+					exception_code: row_data[11]
+				})
+				rescue Exception => e
+					@bad_data.push(row_data) # Push the bad data into the @bad_data array
+				end
 			end
-		end
-		flash[:warning] = !@bad_data.empty? ? @bad_data : nil
-		if flash[:warning].nil? 
-			flash[:success] = "Data successfully imported"
+			flash[:warning] = !@bad_data.empty? ? @bad_data : nil
+			if flash[:warning].nil? 
+				flash[:success] = "Data successfully imported"
+			end
 		end
 		redirect_to root_path
 	end

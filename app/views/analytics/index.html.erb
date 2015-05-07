@@ -14,7 +14,7 @@
 
 		<%= form_tag import_analytics_path, :class=>"import", multipart: true do %>
 		  <div class="fileUpload"><%= file_field_tag :file %></div>
-		  <div><%= submit_tag "Import", :class => "btn btn-default" %></div>
+		  <div class="submitButton"><%= submit_tag "Import", :class => "btn btn-default" %></div>
 		  <p class="caption"><i>* Large files may take longer to load, please be patient after submitting.</i></p>
 		<% end %>
 
