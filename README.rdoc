@@ -49,7 +49,7 @@ Steps:
 
 7.	Open up any internet browser and go to localhost:3000
 
-8.	You should now be able to see a page allowing you to input a file and upload it by clicking “Import”
+8.	You should now be able to see a page allowing you to input a file and upload it by clicking “Import” (test file: EnernocSmallSampleInput.csv)
 
 9.	“See Statistics” will show you all the statistics that was asked for. 
 =end
